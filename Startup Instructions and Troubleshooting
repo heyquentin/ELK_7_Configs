@@ -1,0 +1,40 @@
+
+-----------------------------------------------------------
+Startup Instructions
+
+1. Turn on promisc mode
+	ip link set ens192 promisc on
+2. Restart ES
+	systemctl restart elasticsearch
+	give it a minute or two before checking the web interface but this should work
+3. Fix "Kibana server not ready"
+	curl -XDELETE http://localhost:9200/.kibana*
+4. Start Zeek
+	./opt/zeek/bin/zeekctl
+	start
+5. Check services. You will probably have to restart all of these
+	systemctl status elasticsearch
+	systemctl status kibana
+	systemctl status logstash
+	systemctl status filebeat
+	
+Troubleshooting
+How did you get past the "not saving index" problem?
+I think I just restarted the server and restarted all the services
+
+Create a space from a command
+curl -X POST http://localhost:9200/api/spaces/space -H 'kbn-xsrf: true' -H 'Content-Type: application/json' -d '{"id": "default","name": "Default"}'
+Restart elasticsearch and kibana
+
+Check your filebeat config
+filebeat -c /etc/filebeat/filebeat.yml -e
+
+If you're adding paths to filebeat you have to restart the filebeat service after adding the path and field
+
+If you're adding fields in Logstash you probably have to refresh the indexes
+
+Check logstash config
+/usr/share/logstash/bin/logstash --config.test_and_exit --path.settings /etc/logstash -f /etc/logstash/conf.d/01-BeatsConfig.conf
+
+Delete all Kibana indexes
+curl -XDELETE http://localhost:9200/*
