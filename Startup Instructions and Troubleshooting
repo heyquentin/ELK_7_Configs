@@ -38,3 +38,6 @@ Check logstash config
 
 Delete all Kibana indexes
 curl -XDELETE http://localhost:9200/*
+
+Generate some HTTP events with Powershell
+Invoke-WebRequest http://httpbin.org/json
