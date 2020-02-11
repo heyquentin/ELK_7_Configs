@@ -20,7 +20,7 @@ Startup Instructions
 	
 Troubleshooting
 How did you get past the "not saving index" problem?
-I think I just restarted the server and restarted all the services
+I just restarted all the services, closed the browser window and opened Kibana up again at https://ip
 
 Create a space from a command
 curl -X POST http://localhost:9200/api/spaces/space -H 'kbn-xsrf: true' -H 'Content-Type: application/json' -d '{"id": "default","name": "Default"}'
